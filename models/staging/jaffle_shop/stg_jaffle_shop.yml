@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: One customer per row
+    columns:
+      - name: customer_id
+        description: Primary key for stg_customers
+        tests:
+          - unique
+          - not_null
+      - name: first_name
+        description: Customers first name.
+      - name: last_name
+        description: Customers last name.
+  - name: stg_orders
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+      - name: status
+        description: '{{ doc("order_status") }}'
+        tests:
+          - accepted_values:
+              values:
+                - completed
+                - shipped
+                - returned
+                - return_pending
+                - placed
+      - name: customer_id
+        description: Id relation to customers table.
+      - name: order_date
+        description: Date of order.
